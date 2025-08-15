@@ -111,6 +111,8 @@ jobs:
           echo "SHA512 URL: $SHA512_URL"
           echo "Listing build/zips/"
           ls -l build/zips/
+          echo "Listing build/final/"
+          ls -l build/final/
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
