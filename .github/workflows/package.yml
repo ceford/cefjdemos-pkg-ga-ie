@@ -70,7 +70,7 @@ jobs:
           mkdir -p build/final
           cp pkg_${LANGUAGE_CODE}.xml build/zips/
           cd build/zips
-          zip -r ../final/${{ steps.vars.outputs.package_name }}.zip ./*
+          zip -D ../final/${{ steps.vars.outputs.package_name }}.zip ./*
           cd ../..
 
       - name: Generate SHA256 and SHA512 hashes
