@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="package" method="upgrade">
+	<name>Irish Gaelic</name>
+	<packagename>ga-IE</packagename>
+	<version>5.3.3</version>
+	<creationDate>2025-08-14</creationDate>
+	<author>Clifford E Ford</author>
+	<authorEmail>cliff@fford.me.uk</authorEmail>
+	<authorUrl>https://github.com/ceford/cefjdemos-pkg-ga-ie</authorUrl>
+	<copyright>(C) 2025 Clifford E Ford. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<url>https://github.com/ceford/cefjdemos-pkg-ga-ie</url>
+	<packager>Clifford E Ford</packager>
+	<packagerurl>https://github.com/ceford/cefjdemos-pkg-ga-ie</packagerurl>
+	<description><![CDATA[Irish Gaelic with translation by openai.com]]></description>
+	<blockChildUninstall>true</blockChildUninstall>
+	<files>
+		<file type="language" client="site" id="ga-IE">site_ga-IE.zip</file>
+		<file type="language" client="administrator" id="ga-IE">admin_ga-IE.zip</file>
+		<file type="language" client="api" id="ga-IE">api_ga-IE.zip</file>
+	</files>
+	<updateservers>
+		<server type="extension" priority="2" name="Irish Gaelic Update Site">https://github.com/ceford/cefjdemos-pkg-ga-ie/raw/main/updates.xml</server>
+	</updateservers>
+</extension>
