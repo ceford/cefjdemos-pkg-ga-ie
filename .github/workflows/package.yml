@@ -98,7 +98,7 @@ jobs:
       - name: Upload ZIP file
         uses: actions/upload-artifact@v4
         with:
-          name: PACKAGE_NAME
+          name: ${{ steps.vars.outputs.package_name }}
           path: downloads/*.zip
 
       - name: Install xmlstarlet
