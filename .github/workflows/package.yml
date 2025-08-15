@@ -86,15 +86,15 @@ jobs:
             build/final/${{ steps.vars.outputs.package_name }}.zip.sha384
             build/final/${{ steps.vars.outputs.package_name }}.zip.sha512
 
-      - name: Debug check for files
-        run: |
-          echo "Listing build/final/"
-          ls -l build/final/
-
       - name: Copy to download folder (optional)
         run: |
           mkdir -p downloads
           cp build/final/* downloads/
+
+      - name: Debug check for files
+        run: |
+          echo "Listing build/final/"
+          ls -l build/final/
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
