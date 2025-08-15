@@ -87,7 +87,6 @@ jobs:
             build/final/${{ steps.vars.outputs.package_name }}.zip.sha512
 
       - name: Commit to download folder (optional)
-        if: github.ref == 'refs/heads/joomla5' || github.ref == 'refs/heads/joomla6'
         run: |
           mkdir -p downloads
           cp build/final/* downloads/
