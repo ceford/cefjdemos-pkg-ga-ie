@@ -1,4 +1,4 @@
-# Joomla Language pack for Scottish Gaelic
+# Joomla Language pack for Irish Gaelic
 
 This language pack was made by translation of the Joomla 5 English language pack using openai.com. The package can be installed as for any other extension, not as a language. The direct links for download are:
 
