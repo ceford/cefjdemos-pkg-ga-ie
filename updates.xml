@@ -9,11 +9,11 @@
     <client>administrator</client>
     <infourl title="Irish Gaelic Language Pack">https://github.com/ceford/cefjdemos-pkg-ga-ie/blob/main/README.md</infourl>
     <downloads>
-      <downloadurl type="full" format="zip">https://github.com/ceford/cefjdemos-pkg-ga-ie/releases/download/5.3.2/.zip</downloadurl>
+      <downloadurl type="full" format="zip">https://github.com/ceford/cefjdemos-pkg-ga-ie/releases/download/5.3.2/pkg_ga-IE-joomla5.zip</downloadurl>
     </downloads>
-    <sha256>e418bf19194c45dce5950b3b15bd1b9df6b04fede3ea69c42258f0376af0c067</sha256>
-    <sha384>e12d079fd6e4d58c84d5eacb81edd8d41b853523143a5219650d5463bf85722c9a0e5b72130416bb93e9c692cca4fcf2</sha384>
-    <sha512>f935fa6a4071ab3e95f1b7691d5d4957a7df0aadc940d1d89a61d3bf217bff1a2c82c8c27f6c3f82ea82fa7a68cac0f840cd151221646f54f797b10bc0f46ad0</sha512>
+    <sha256>b682de83866b9c290dbd81e821c23cd2c43142aec48f4a05af6ab3c0900ee737</sha256>
+    <sha384>ffd5520d29367eb28a9dc9db75e0c706ceee789a141de34a7a5000fe61ff5dc9100a7b74c5f1c2905c07f922d7dcf67e</sha384>
+    <sha512>fce8929285510cbb6a688a34c7dfa775d86d533b6e3ce4e5d96fa8c2d1d52ca4036d76cab0d8aabe8bb88afdfcf4db12d18e82d06c0913f5185d684240455cea</sha512>
     <changelogurl>https://raw.githubusercontent.com/ceford/cefjdemos-pkg-ga-ie//changelog.xml</changelogurl>
     <tags>
       <tag>stable</tag>
