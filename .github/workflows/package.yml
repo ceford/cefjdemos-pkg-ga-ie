@@ -84,6 +84,7 @@ jobs:
         with:
           tag_name: ${{ env.VERSION }}
           name: ${{ env.PACKAGE_NAME }}
+          files: build/zips/${{ steps.vars.outputs.package_name }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -114,6 +115,8 @@ jobs:
           echo "SHA256 URL: $SHA256_URL"
           echo "SHA384 URL: $SHA384_URL"
           echo "SHA512 URL: $SHA512_URL"
+          echo "Listing build/zips/"
+          ls -l build/zips/
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
