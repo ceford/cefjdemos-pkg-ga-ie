@@ -11,9 +11,9 @@
     <downloads>
       <downloadurl type="full" format="zip">https://github.com/ceford/cefjdemos-pkg-ga-ie/releases/download/5.3.2/pkg_ga-IE-joomla5.zip</downloadurl>
     </downloads>
-    <sha256>03b22fe2cde9c9e320283448d98df5c106d46ef3cfb73b52c8b40b79114cc2c6</sha256>
-    <sha384>6458d8d7a33065fe31e98c3ec7d664f3edc15fee697a20afd0278a759b173cea1e891513e5c728d6760338741a22a29a</sha384>
-    <sha512>e151f07ae77f9b2df78a7f87faf56646b4d29639bbe372b1558b2a8605445e8ce70249e1550dfcde64717e05e7746dfad8170f9a5d2ec583f1d0cfdebd650900</sha512>
+    <sha256>bfc004b6eff8f3cd5f3343e96dcab98160b51e8580cd7ffea2f34b43a9bb4363</sha256>
+    <sha384>378567a492210902502a8813d9e9a3c9958075f378fd116c8f7b9b6b62d4c9b8f673e5ac9010b4c65ad3f3f30a2bbe20</sha384>
+    <sha512>67e7a2c30bbbcb1f9cd5cb04ab3cac9b8aecefaa69a11db54d29000306494fd601c3f8e3075df850eb64f23b8dc0c21997462ca1186fe77063ea5ff1e726f66a</sha512>
     <changelogurl>https://raw.githubusercontent.com/ceford/cefjdemos-pkg-ga-ie/refs/heads/joomla5/changelog.xml</changelogurl>
     <tags>
       <tag>stable</tag>
