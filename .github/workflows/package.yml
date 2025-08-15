@@ -43,6 +43,16 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
 
+      # Force tag update
+      - name: Force create/update tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f $VERSION
+          git push origin -f $VERSION
+        env:
+          VERSION: ${{ env.VERSION }}
+
       - name: Set up PHP (if needed for your build)
         uses: shivammathur/setup-php@v2
         with:
@@ -71,36 +81,16 @@ jobs:
           sha512sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha512
           cd ../..
 
-      - name: Create and push tag if missing
-        run: |
-          if git rev-parse $VERSION >/dev/null 2>&1; then
-            echo "Tag $VERSION already exists. Skipping."
-          else
-            git tag $VERSION
-            git push origin $VERSION
-          fi
-        env:
-          VERSION: ${{ env.VERSION }}
-
-      - name: Create GitHub release
-        id: create_release
+      # Create or update the GitHub release
+      - name: Create or update GitHub release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.VERSION }}
           name: ${{ env.PACKAGE_NAME }}
-          files: build/zips/${{ steps.vars.outputs.package_name }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload release assets
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.VERSION }}
+          draft: false
+          prerelease: false
           files: |
             build/final/${{ env.PACKAGE_NAME }}.zip
-            build/final/${{ env.PACKAGE_NAME }}.zip.sha256
-            build/final/${{ env.PACKAGE_NAME }}.zip.sha384
-            build/final/${{ env.PACKAGE_NAME }}.zip.sha512
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
