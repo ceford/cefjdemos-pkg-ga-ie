@@ -71,10 +71,14 @@ jobs:
           sha512sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha512
           cd ../..
 
-      - name: Create and push tag
+      - name: Create and push tag if missing
         run: |
-          git tag $VERSION
-          git push origin $VERSION
+          if git rev-parse $VERSION >/dev/null 2>&1; then
+            echo "Tag $VERSION already exists. Skipping."
+          else
+            git tag $VERSION
+            git push origin $VERSION
+          fi
         env:
           VERSION: ${{ env.VERSION }}
 
