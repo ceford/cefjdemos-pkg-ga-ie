@@ -95,6 +95,8 @@ jobs:
         run: |
           echo "Listing build/final/"
           ls -l build/final/
+          echo "Listing downloads"
+          ls -l downloads
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
