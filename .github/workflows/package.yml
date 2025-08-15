@@ -74,8 +74,8 @@ jobs:
 
       # If you currently have the package name in a previous step output,
       # expose it as an env var FIRST so you can use $PACKAGE_NAME in shell.
-      - name: Export PACKAGE_NAME env var
-        run: echo "PACKAGE_NAME=${{ steps.vars.outputs.package_name }}" >> $GITHUB_ENV
+      #- name: Export PACKAGE_NAME env var
+      #  run: echo "PACKAGE_NAME=${{ steps.vars.outputs.package_name }}" >> $GITHUB_ENV
 
       - name: Create final package zip
         run: |
