@@ -72,11 +72,6 @@ jobs:
             sudo apt-get update && sudo apt-get install -y zip
           fi
 
-      # If you currently have the package name in a previous step output,
-      # expose it as an env var FIRST so you can use $PACKAGE_NAME in shell.
-      #- name: Export PACKAGE_NAME env var
-      #  run: echo "PACKAGE_NAME=${{ steps.vars.outputs.package_name }}" >> $GITHUB_ENV
-
       - name: Create final package zip
         run: |
           set -euxo pipefail
@@ -152,7 +147,6 @@ jobs:
           BRANCH="${{ steps.vars.outputs.branch }}"
 
           DOWNLOAD_URL=$ZIP_URL
-          CHANGELOG_URL="https://raw.githubusercontent.com/ceford/cefjdemos-pkg-${LC_LANGUAGE_CODE}/${BRANCH}/changelog.xml"
 
           xmlstarlet ed \
             -u "//update/version" -v "$VERSION" \
@@ -160,7 +154,6 @@ jobs:
             -u "//update/sha256" -v "$SHA256" \
             -u "//update/sha384" -v "$SHA384" \
             -u "//update/sha512" -v "$SHA512" \
-            -u "//update/changelogurl" -v "$CHANGELOG_URL" \
             updates.xml > updated_updates.xml
 
           mv updated_updates.xml updates.xml

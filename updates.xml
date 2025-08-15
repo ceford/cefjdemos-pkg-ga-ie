@@ -14,7 +14,7 @@
     <sha256>9adfa0c6d4b8d084fc829b73b5a9acaaa678573419be33f8b0566aa88cf2eac0</sha256>
     <sha384>ab94672c7633dfab376dcf81c5700179dfd8db32f90e29db5999120990f787872cd2334b86097f24b7a8c18f3a05f70e</sha384>
     <sha512>945eb8bc1c77f4a063011c6016777c58981ab440f00cef1514c000ddb66e4c3c0e976b3c9d00f230819333708ac9549566079679a941b4b9a48634110939a491</sha512>
-    <changelogurl>https://raw.githubusercontent.com/ceford/cefjdemos-pkg-ga-ie//changelog.xml</changelogurl>
+    <changelogurl>https://raw.githubusercontent.com/ceford/cefjdemos-pkg-ga-ie/refs/heads/joomla5/changelog.xml</changelogurl>
     <tags>
       <tag>stable</tag>
     </tags>
