@@ -100,9 +100,9 @@ jobs:
       - name: Generate SHA256 and SHA512 hashes
         run: |
           cd build/final
-          sha256sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha256
-          sha384sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha384
-          sha512sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha512
+          sha256sum ${PACKAGE_NAME}.zip > ${PACKAGE_NAME}.zip.sha256
+          sha384sum ${PACKAGE_NAME}.zip > ${PACKAGE_NAME}.zip.sha384
+          sha512sum ${PACKAGE_NAME}.zip > ${PACKAGE_NAME}.zip.sha512
           cd ../..
 
       # Create or update the GitHub release
