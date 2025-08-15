@@ -5,16 +5,16 @@
     <description>Irish Gaelic Language Pack</description>
     <element>ga-IE</element>
     <type>language</type>
-    <version>5.3.3</version>
+    <version/>
     <client>administrator</client>
     <infourl title="Irish Gaelic Language Pack">https://github.com/ceford/cefjdemos-pkg-ga-ie/blob/main/README.md</infourl>
     <downloads>
-      <downloadurl type="full" format="zip">https://github.com/ceford/cefjdemos-pkg-ga-ie/raw/joomla5/downloads/pkg_ga-IE-joomla5.zip</downloadurl>
+      <downloadurl type="full" format="zip">https://github.com/ceford/cefjdemos-pkg-ga-ie/releases/download/5.3.2/pkg_ga-IE-joomla5.zip</downloadurl>
     </downloads>
-    <sha256>4efd6f21ae5624a2f7fd248a9da30c12244b937ecfb2999dacc0ff59e57ed117</sha256>
-    <sha384>9229214dc031aaf95dfbeb2846615165b262ea62e5535918c7a94b9f32e2b6f6d051a88d7365e14d06802981866c68b1</sha384>
-    <sha512>2ccdbbc24bdbd5ac41b61bb0d09ccdef34cae65f10e1e33fd98244a836af976e7625a0739b94f3e066fbc72645d0b0166001f1fc0a994b42ddff93d61edfe9a4</sha512>
-    <changelogurl>https://raw.githubusercontent.com/ceford/cefjdemos-pkg-ga-ie/joomla5/changelog.xml</changelogurl>
+    <sha256>d7db9686dc96dbf3823b44cd111cf247f531e11f32618b3b532b6bb32e7617e9</sha256>
+    <sha384>332bf974bed63f552d53b1ee663c998e5dd1c7ea4c88f2d2c45df1489f2f915679906f7d2ccb39c10bd8dbee2b6be44d</sha384>
+    <sha512>c463023aabf21b3ad047c6768818be00ce1c1d64dc594dfca83c26db81bebc19cabe090321d3214e7e60d3658138d5845b2e61f2c5790987ff14b8f69609eea8</sha512>
+    <changelogurl>https://raw.githubusercontent.com/ceford/cefjdemos-pkg-ga-ie//changelog.xml</changelogurl>
     <tags>
       <tag>stable</tag>
     </tags>
