@@ -65,13 +65,37 @@ jobs:
           zip -r build/zips/api_${LANGUAGE_CODE}.zip ${LANGUAGE_CODE}/api_${LANGUAGE_CODE}
           zip -r build/zips/site_${LANGUAGE_CODE}.zip ${LANGUAGE_CODE}/site_${LANGUAGE_CODE}
 
+      # (Optional) sanity check that zip is installed
+      - name: Ensure zip is available
+        run: |
+          if ! command -v zip >/dev/null 2>&1; then
+            sudo apt-get update && sudo apt-get install -y zip
+          fi
+
+      # If you currently have the package name in a previous step output,
+      # expose it as an env var FIRST so you can use $PACKAGE_NAME in shell.
+      - name: Export PACKAGE_NAME env var
+        run: echo "PACKAGE_NAME=${{ steps.vars.outputs.package_name }}" >> $GITHUB_ENV
+
       - name: Create final package zip
         run: |
+          set -euxo pipefail
           mkdir -p build/final
-          cp pkg_${LANGUAGE_CODE}.xml build/zips/
-          cd build/zips
-          zip -D ../final/${{ steps.vars.outputs.package_name }}.zip ./*
-          cd ../..
+
+          # Show what we’re about to package
+          ls -l build/zips || true
+
+          # Ensure the XML is included alongside the three zips
+          cp "pkg_${LANGUAGE_CODE}.xml" build/zips/
+
+          # Create the final zip FROM ABSOLUTE PATHS (no cd needed)
+          # -j strips the directory paths so contents are at the root of the archive
+          zip -j "build/final/${PACKAGE_NAME}.zip" \
+            build/zips/*.zip \
+            "build/zips/pkg_${LANGUAGE_CODE}.xml"
+
+          echo "Final contents:"
+          ls -l build/final
 
       - name: Generate SHA256 and SHA512 hashes
         run: |
