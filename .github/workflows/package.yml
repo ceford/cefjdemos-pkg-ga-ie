@@ -6,6 +6,9 @@ on:
       - joomla5  # or your main development branch
       - joomla6
 
+permissions:
+  contents: write
+
 env:
   EXTENSION_NAME: pkg_ga-IE
   LANGUAGE_CODE: ga-IE
@@ -67,6 +70,13 @@ jobs:
           sha384sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha384
           sha512sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha512
           cd ../..
+
+      - name: Create and push tag
+        run: |
+          git tag $VERSION
+          git push origin $VERSION
+        env:
+          VERSION: ${{ env.VERSION }}
 
       - name: Create GitHub release
         id: create_release
