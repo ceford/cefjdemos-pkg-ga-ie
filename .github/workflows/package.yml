@@ -86,12 +86,6 @@ jobs:
             build/final/${{ steps.vars.outputs.package_name }}.zip.sha384
             build/final/${{ steps.vars.outputs.package_name }}.zip.sha512
 
-      # Debug - confirm the build/final folder contents
-      - name: Debug check for build/final
-        run: |
-          echo "Listing build/final/"
-          ls -l build/final/
-
       # Copy files to downloads folder
       - name: Copy to downloads folder
         run: |
@@ -100,12 +94,30 @@ jobs:
           echo "Listing downloads/"
           ls -l downloads/
 
-      # Save downloads folder as a workflow artifact
-      - name: Save downloads folder as artifact
+      # Upload ZIP and each hash as separate artifacts
+      - name: Upload ZIP file
         uses: actions/upload-artifact@v4
         with:
-          name: downloads
-          path: downloads/
+          name: package-zip
+          path: downloads/*.zip
+
+      - name: Upload SHA256
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-sha256
+          path: downloads/*.zip.sha256
+
+      - name: Upload SHA384
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-sha384
+          path: downloads/*.zip.sha384
+
+      - name: Upload SHA512
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-sha512
+          path: downloads/*.zip.sha512
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
