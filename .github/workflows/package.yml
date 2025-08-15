@@ -1,24 +1,10 @@
-name: Build Joomla Language Extension Package
+name: Build and Release Joomla Language Packages
 
 on:
-
   push:
     branches:
-      - joomla5
+      - joomla5  # or your main development branch
       - joomla6
-
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Custom version (optional, overrides pkg_ga-IE.xml <version>)'
-        required: false
-      forceRebuild:
-        description: 'Force rebuild all zip files (true/false)'
-        required: false
-        default: 'false'
-
-permissions:
-  contents: write
 
 env:
   EXTENSION_NAME: pkg_ga-IE
@@ -26,32 +12,38 @@ env:
   LC_LANGUAGE_CODE: ga-ie
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Install xmllint
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
-      - name: Set version and target
-        id: vars
+      - name: Set branch and version
+        id: set_version
         run: |
           BRANCH_NAME="${GITHUB_REF##*/}"
-
-          # Use manual version input if provided, else read from pkg_${LANGUAGE_CODE}.xml
-          if [ -n "${{ github.event.inputs.version }}" ]; then
-            VERSION="${{ github.event.inputs.version }}"
+          echo "Branch is $BRANCH_NAME"
+          if [ "$BRANCH_NAME" = "joomla5" ]; then
+            VERSION="5.3.2"
+            PACKAGE_NAME="${EXTENSION_NAME}-joomla5"
+          elif [ "$BRANCH_NAME" = "joomla6" ]; then
+            VERSION="6.0.0"
+            PACKAGE_NAME="${EXTENSION_NAME}-joomla6"
           else
-            VERSION=$(xmllint --xpath "string(//version)" pkg_${LANGUAGE_CODE}.xml)
+            echo "Unknown branch $BRANCH_NAME"
+            exit 1
           fi
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
 
-          PACKAGE_NAME="${EXTENSION_NAME}-${BRANCH_NAME}"
-          echo "branch=${BRANCH_NAME}" >> $GITHUB_OUTPUT
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "package_name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+      - name: Set up PHP (if needed for your build)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
 
       - name: Create individual zip files
         run: |
@@ -76,48 +68,42 @@ jobs:
           sha512sum ${{ steps.vars.outputs.package_name }}.zip > ${{ steps.vars.outputs.package_name }}.zip.sha512
           cd ../..
 
-      - name: Upload package and hashes as artifacts
-        uses: actions/upload-artifact@v4
+      - name: Create GitHub release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          name: ${{ steps.vars.outputs.package_name }}
-          path: |
-            build/final/${{ steps.vars.outputs.package_name }}.zip
-            build/final/${{ steps.vars.outputs.package_name }}.zip.sha256
-            build/final/${{ steps.vars.outputs.package_name }}.zip.sha384
-            build/final/${{ steps.vars.outputs.package_name }}.zip.sha512
+          tag_name: ${{ env.VERSION }}
+          name: ${{ env.PACKAGE_NAME }}-${{ env.VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Copy files to downloads folder
-      - name: Copy to downloads folder
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          files: |
+            build/final/${{ env.PACKAGE_NAME }}.zip
+            build/final/${{ env.PACKAGE_NAME }}.zip.sha256
+            build/final/${{ env.PACKAGE_NAME }}.zip.sha384
+            build/final/${{ env.PACKAGE_NAME }}.zip.sha512
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set download URLs for updates.xml
+        id: set_urls
         run: |
-          mkdir -p downloads
-          cp build/final/* downloads/
-          echo "Listing downloads/"
-          ls -l downloads/
+          BASE_URL="https://github.com/${GITHUB_REPOSITORY}/releases/download/${VERSION}"
+          echo "ZIP_URL=${BASE_URL}/${PACKAGE_NAME}.zip" >> $GITHUB_ENV
+          echo "SHA256_URL=${BASE_URL}/${PACKAGE_NAME}.zip.sha256" >> $GITHUB_ENV
+          echo "SHA384_URL=${BASE_URL}/${PACKAGE_NAME}.zip.sha384" >> $GITHUB_ENV
+          echo "SHA512_URL=${BASE_URL}/${PACKAGE_NAME}.zip.sha512" >> $GITHUB_ENV
 
-      # Upload ZIP and each hash as separate artifacts
-      - name: Upload ZIP file
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.vars.outputs.package_name }}-zip
-          path: downloads/${{ steps.vars.outputs.package_name }}.zip
-
-      - name: Upload SHA256
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-sha256
-          path: downloads/*.zip.sha256
-
-      - name: Upload SHA384
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-sha384
-          path: downloads/*.zip.sha384
-
-      - name: Upload SHA512
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-sha512
-          path: downloads/*.zip.sha512
+      - name: Debug URLs
+        run: |
+          echo "ZIP URL: $ZIP_URL"
+          echo "SHA256 URL: $SHA256_URL"
+          echo "SHA384 URL: $SHA384_URL"
+          echo "SHA512 URL: $SHA512_URL"
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
@@ -133,7 +119,7 @@ jobs:
           SHA512=$(cut -d' ' -f1 build/final/${PACKAGE_NAME}.zip.sha512)
           BRANCH="${{ steps.vars.outputs.branch }}"
 
-          DOWNLOAD_URL="https://github.com/ceford/cefjdemos-pkg-${LC_LANGUAGE_CODE}/raw/${BRANCH}/downloads/${PACKAGE_NAME}.zip"
+          DOWNLOAD_URL=$ZIP_URL
           CHANGELOG_URL="https://raw.githubusercontent.com/ceford/cefjdemos-pkg-${LC_LANGUAGE_CODE}/${BRANCH}/changelog.xml"
 
           xmlstarlet ed \
