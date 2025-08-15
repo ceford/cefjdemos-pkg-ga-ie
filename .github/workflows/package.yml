@@ -98,26 +98,8 @@ jobs:
       - name: Upload ZIP file
         uses: actions/upload-artifact@v4
         with:
-          name: package-zip
+          name: PACKAGE_NAME
           path: downloads/*.zip
-
-      - name: Upload SHA256
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-sha256
-          path: downloads/*.zip.sha256
-
-      - name: Upload SHA384
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-sha384
-          path: downloads/*.zip.sha384
-
-      - name: Upload SHA512
-        uses: actions/upload-artifact@v4
-        with:
-          name: package-sha512
-          path: downloads/*.zip.sha512
 
       - name: Install xmlstarlet
         run: sudo apt-get update && sudo apt-get install -y xmlstarlet
