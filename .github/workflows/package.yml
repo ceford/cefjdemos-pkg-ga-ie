@@ -30,6 +30,9 @@ jobs:
       - name: Set branch and version
         id: set_version
         run: |
+          echo "Test ${GITHUB_REF_NAME}"
+          exit 1
+
           BRANCH_NAME="${GITHUB_REF##*/}"
           echo "Branch is $BRANCH_NAME"
           if [ "$BRANCH_NAME" = "joomla5" ]; then
