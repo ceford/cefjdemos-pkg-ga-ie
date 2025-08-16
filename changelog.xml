@@ -2,6 +2,14 @@
     <changelog>
         <element>ga-IE</element>
         <type>language</type>
+        <version>5.3.2.1</version>
+        <change>
+            <item>Updated Version to 5.3.2.1</item>
+        </change>
+    </changelog>
+    <changelog>
+        <element>ga-IE</element>
+        <type>language</type>
         <version>5.3.2.0</version>
         <add>
             <item>First release</item>
