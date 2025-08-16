@@ -17,7 +17,7 @@ env:
   LANGUAGE_CODE: ga-IE
 
 jobs:
-  build-and-release:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
