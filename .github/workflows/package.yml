@@ -186,40 +186,28 @@ jobs:
           ls -R gh-pages
 
       # 4b. Install Pandoc and convert README.md into index.html for site root
-      - name: Generate index.html from README.md
+      - name: Create index.html for site root
         run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc
-
           mkdir -p gh-pages
-          if [ -f README.md ]; then
-            echo "Converting README.md to index.html..."
-            pandoc README.md -s -o gh-pages/index.html \
-              --metadata title="${GITHUB_REPOSITORY}" \
-              --css=https://cdn.jsdelivr.net/npm/water.css@2/out/water.css
-
-            # Append direct links to update files
-            cat <<EOF >> gh-pages/index.html
-            <hr>
+          cat <<'EOF' > gh-pages/index.html
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>${GITHUB_REPOSITORY}</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+          </head>
+          <body>
+            <h1>${GITHUB_REPOSITORY}</h1>
+            <p>Welcome! This site hosts update files for Joomla extensions.</p>
             <h2>Download Updates</h2>
             <ul>
               <li><a href="./joomla5/updates.xml">Joomla 5 updates.xml</a></li>
               <li><a href="./joomla6/updates.xml">Joomla 6 updates.xml</a></li>
             </ul>
-            EOF
-          else
-            echo "No README.md found, creating placeholder index.html"
-            cat <<EOF > gh-pages/index.html
-            <!doctype html>
-            <html>
-            <head><title>${GITHUB_REPOSITORY}</title></head>
-            <body>
-              <h1>${GITHUB_REPOSITORY}</h1>
-              <p>Package updates are under <a href="./joomla5/updates.xml">Joomla 5</a> and <a href="./joomla6/updates.xml">Joomla 6</a>.</p>
-            </body>
-            </html>
-            EOF
-          fi
+          </body>
+          </html>
+          EOF
 
       # 5. Upload to Pages artifact
       - name: Upload Pages artifact
