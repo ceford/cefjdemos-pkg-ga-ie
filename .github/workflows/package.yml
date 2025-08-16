@@ -173,31 +173,37 @@ jobs:
       #    git push origin ${{ steps.vars.outputs.branch }}
 
       # 👉 Place updates.xml in branch-specific subfolder
-      - name: Prepare Pages content
+
+      # 3. Checkout existing gh-pages branch into ./gh-pages
+      - name: Fetch gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      # 4. Copy new updates.xml into correct subfolder (joomla5 or joomla6)
+      - name: Copy updates.xml
         run: |
-          mkdir -p public
+          mkdir -p gh-pages/joomla5 gh-pages/joomla6
           if [[ "${GITHUB_REF_NAME}" == *"joomla5" ]]; then
-            mkdir -p public/joomla5
-            cp updates.xml public/joomla5/
+            cp updates.xml gh-pages/joomla5/updates.xml
           elif [[ "${GITHUB_REF_NAME}" == *"joomla6" ]]; then
-            mkdir -p public/joomla6
-            cp updates.xml public/joomla6/
+            cp updates.xml gh-pages/joomla6/updates.xml
           fi
 
-      # 👉 Upload to GitHub Pages artifact
+      # 5. Upload updated gh-pages content
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: gh-pages
 
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build-and-release
+    needs: publish
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
