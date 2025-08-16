@@ -15,7 +15,6 @@ permissions:
 env:
   EXTENSION_NAME: pkg_ga-IE
   LANGUAGE_CODE: ga-IE
-  LC_LANGUAGE_CODE: ga-ie
 
 jobs:
   build-and-release:
@@ -114,7 +113,6 @@ jobs:
           prerelease: ${{ contains(env.BRANCH_NAME, 'joomla6') }}
           files: |
             build/final/${{ env.PACKAGE_NAME }}.zip
-            updates.xml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -178,10 +176,10 @@ jobs:
       # 4. Copy updates.xml into branch-specific subfolder
       - name: Copy updates.xml
         run: |
-          if [[ "${GITHUB_REF_NAME}" == *"joomla5" ]]; then
+          if [[ "${BRANCH_NAME}" == *"joomla5" ]]; then
             mkdir -p gh-pages/joomla5
             cp updates.xml gh-pages/joomla5/updates.xml
-          elif [[ "${GITHUB_REF_NAME}" == *"joomla6" ]]; then
+          elif [[ "${BRANCH_NAME}" == *"joomla6" ]]; then
             mkdir -p gh-pages/joomla6
             cp updates.xml gh-pages/joomla6/updates.xml
           fi
