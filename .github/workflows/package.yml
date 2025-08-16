@@ -185,18 +185,40 @@ jobs:
           fi
           ls -R gh-pages
 
-      # 4b. Convert README.md into index.html for site root
+      # 4b. Install Pandoc and convert README.md into index.html for site root
       - name: Generate index.html from README.md
         run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
           mkdir -p gh-pages
           if [ -f README.md ]; then
             echo "Converting README.md to index.html..."
-            kramdown README.md -s -o gh-pages/index.html \
+            pandoc README.md -s -o gh-pages/index.html \
               --metadata title="${GITHUB_REPOSITORY}" \
               --css=https://cdn.jsdelivr.net/npm/water.css@2/out/water.css
+
+            # Append direct links to update files
+            cat <<EOF >> gh-pages/index.html
+            <hr>
+            <h2>Download Updates</h2>
+            <ul>
+              <li><a href="./joomla5/updates.xml">Joomla 5 updates.xml</a></li>
+              <li><a href="./joomla6/updates.xml">Joomla 6 updates.xml</a></li>
+            </ul>
+            EOF
           else
             echo "No README.md found, creating placeholder index.html"
-            echo "<!doctype html><html><body><h1>${GITHUB_REPOSITORY}</h1><p>Package updates are under /joomla5/ and /joomla6/</p></body></html>" > gh-pages/index.html
+            cat <<EOF > gh-pages/index.html
+            <!doctype html>
+            <html>
+            <head><title>${GITHUB_REPOSITORY}</title></head>
+            <body>
+              <h1>${GITHUB_REPOSITORY}</h1>
+              <p>Package updates are under <a href="./joomla5/updates.xml">Joomla 5</a> and <a href="./joomla6/updates.xml">Joomla 6</a>.</p>
+            </body>
+            </html>
+            EOF
           fi
 
       # 5. Upload to Pages artifact
