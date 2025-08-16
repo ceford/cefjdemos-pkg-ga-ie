@@ -155,6 +155,27 @@ jobs:
       #    git commit -m "Update updates.xml with version ${{ steps.vars.outputs.version }}" || echo "No changes to commit"
       #    git push origin ${{ steps.vars.outputs.branch }}
 
+      # 👉 Now push updates.xml to branch "updates"
+      - name: Push updates.xml to updates branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Create a temp folder with just updates.xml
+          rm -rf /tmp/updates-branch
+          mkdir /tmp/updates-branch
+          cp updates.xml /tmp/updates-branch/
+          cd /tmp/updates-branch
+
+          git init
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git checkout -b updates
+          git add updates.xml
+          git commit -m "Update updates.xml for ${GITHUB_REF_NAME}"
+          git push origin updates --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # Create or update the GitHub release
       - name: Create or update GitHub release
         uses: softprops/action-gh-release@v1
