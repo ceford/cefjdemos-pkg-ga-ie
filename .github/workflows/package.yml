@@ -174,24 +174,30 @@ jobs:
 
       # 👉 Place updates.xml in branch-specific subfolder
 
-      # 3. Checkout existing gh-pages branch into ./gh-pages
-      - name: Fetch gh-pages branch
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
+      # 3. Try to fetch existing gh-pages branch, or start clean if it doesn't exist
+      - name: Prepare gh-pages working directory
+        run: |
+          mkdir gh-pages
+          if git ls-remote --exit-code origin gh-pages; then
+            echo "Fetching existing gh-pages branch..."
+            git fetch origin gh-pages
+            git clone --branch gh-pages --depth 1 "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages
+          else
+            echo "No gh-pages branch yet, starting fresh."
+          fi
 
-      # 4. Copy new updates.xml into correct subfolder (joomla5 or joomla6)
+      # 4. Copy updates.xml into branch-specific subfolder
       - name: Copy updates.xml
         run: |
-          mkdir -p gh-pages/joomla5 gh-pages/joomla6
           if [[ "${GITHUB_REF_NAME}" == *"joomla5" ]]; then
+            mkdir -p gh-pages/joomla5
             cp updates.xml gh-pages/joomla5/updates.xml
           elif [[ "${GITHUB_REF_NAME}" == *"joomla6" ]]; then
+            mkdir -p gh-pages/joomla6
             cp updates.xml gh-pages/joomla6/updates.xml
           fi
 
-      # 5. Upload updated gh-pages content
+      # 5. Upload to Pages artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -202,7 +208,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build-and-release
+    needs: publish
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
