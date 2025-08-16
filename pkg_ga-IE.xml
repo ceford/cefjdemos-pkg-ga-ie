@@ -20,6 +20,6 @@
 		<file type="language" client="api" id="ga-IE">api_ga-IE.zip</file>
 	</files>
 	<updateservers>
-		<server type="extension" priority="2" name="Irish Gaelic Update Site">https://raw.githubusercontent.com/ceford/cefjdemos-pkg-ga-ie/refs/heads/joomla5/updates.xml</server>
+		<server type="extension" priority="2" name="Irish Gaelic Update Site">https://ceford.github.io/cefjdemos-pkg-ga-ie/joomla5/updates.xml</server>
 	</updateservers>
 </extension>
