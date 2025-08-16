@@ -101,19 +101,6 @@ jobs:
           sha512sum ${PACKAGE_NAME}.zip > ${PACKAGE_NAME}.zip.sha512
           cd ../..
 
-      # Create or update the GitHub release
-      - name: Create or update GitHub release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ env.VERSION }}
-          name: ${{ env.PACKAGE_NAME }}
-          draft: false
-          prerelease: ${{ contains(env.BRANCH_NAME, 'joomla6') }}
-          files: |
-            build/final/${{ env.PACKAGE_NAME }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Set download URLs for updates.xml
         id: set_urls
         run: |
@@ -159,11 +146,26 @@ jobs:
 
           mv updated_updates.xml updates.xml
 
-      - name: Commit updated updates.xml
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+      #- name: Commit updated updates.xml
+      #  run: |
+      #    git config user.name "github-actions[bot]"
+      #    git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add updates.xml
-          git commit -m "Update updates.xml with version ${{ steps.vars.outputs.version }}" || echo "No changes to commit"
-          git push origin ${{ steps.vars.outputs.branch }}
+      #    git add updates.xml
+      #    git commit -m "Update updates.xml with version ${{ steps.vars.outputs.version }}" || echo "No changes to commit"
+      #    git push origin ${{ steps.vars.outputs.branch }}
+
+      # Create or update the GitHub release
+      - name: Create or update GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: ${{ env.PACKAGE_NAME }}
+          draft: false
+          prerelease: ${{ contains(env.BRANCH_NAME, 'joomla6') }}
+          files: |
+            build/final/${{ env.PACKAGE_NAME }}.zip
+            updates.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
