@@ -183,6 +183,8 @@ jobs:
             mkdir -p gh-pages/joomla6
             cp updates.xml gh-pages/joomla6/updates.xml
           fi
+          ls -l gh-pages
+          ls -l gh-pages/joomla5
 
       # 5. Upload to Pages artifact
       - name: Upload Pages artifact
