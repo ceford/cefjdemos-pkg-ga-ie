@@ -185,16 +185,15 @@ jobs:
           fi
           ls -R gh-pages
 
-      # 4b. Copy README.md as index.html for site root
-      - name: Add index.html from README
+      # 4b. Convert README.md into index.html for site root
+      - name: Generate index.html from README.md
         run: |
+          mkdir -p gh-pages
           if [ -f README.md ]; then
-            mkdir -p gh-pages
-            cp README.md gh-pages/index.md
-            # Optional: convert Markdown to HTML so GitHub Pages shows it nicely
-            echo "<!doctype html><html><body><pre>" > gh-pages/index.html
-            sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g' README.md >> gh-pages/index.html
-            echo "</pre></body></html>" >> gh-pages/index.html
+            echo "Converting README.md to index.html..."
+            pandoc README.md -s -o gh-pages/index.html \
+              --metadata title="${GITHUB_REPOSITORY}" \
+              --css=https://cdn.jsdelivr.net/npm/water.css@2/out/water.css
           else
             echo "No README.md found, creating placeholder index.html"
             echo "<!doctype html><html><body><h1>${GITHUB_REPOSITORY}</h1><p>Package updates are under /joomla5/ and /joomla6/</p></body></html>" > gh-pages/index.html
