@@ -15,6 +15,7 @@ permissions:
 env:
   EXTENSION_NAME: pkg_ga-IE
   LANGUAGE_CODE: ga-IE
+  LANGUAGE_NAME: Irish Gaelic
 
 jobs:
   publish:
@@ -194,12 +195,14 @@ jobs:
           <html>
           <head>
             <meta charset="utf-8">
-            <title>${GITHUB_REPOSITORY}</title>
+            <title>${LANGUAGE_NAME}</title>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
           </head>
           <body>
-            <h1>${GITHUB_REPOSITORY}</h1>
-            <p>Welcome! This site hosts update files for Joomla extensions.</p>
+            <h1>${LANGUAGE_NAME} Language Package</h1>
+            <p>This site hosts update files for custom Joomla language extensions.
+            They are read by installations to obtain update information. They are not
+            meant for human use.</p>
             <h2>Download Updates</h2>
             <ul>
               <li><a href="./joomla5/updates.xml">Joomla 5 updates.xml</a></li>
