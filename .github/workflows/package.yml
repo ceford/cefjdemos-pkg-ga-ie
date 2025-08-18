@@ -161,8 +161,12 @@ jobs:
             updates.xml > updated_updates.xml
 
           mv updated_updates.xml updates.xml
-          echo "Final contents:"
-          ls -l ./
+
+      - name: Download existing Pages site
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+        continue-on-error: true  # In case this is the first ever deployment
 
       - name: Prepare artifact
         run: |
@@ -170,16 +174,7 @@ jobs:
           mkdir -p site/$BRANCH
           cp updates.xml site/$BRANCH/
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-
-      # 4b. Install Pandoc and convert README.md into index.html for site root
-      - name: Create index.html for site root
-        run: |
-          mkdir -p gh-pages
-          cat <<EOF > gh-pages/index.html
+          cat <<EOF > site/index.html
           <!doctype html>
           <html>
           <head>
@@ -201,11 +196,10 @@ jobs:
           </html>
           EOF
 
-      # 5. Upload to Pages artifact
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: gh-pages/
+          path: site/
 
   deploy:
     environment:
