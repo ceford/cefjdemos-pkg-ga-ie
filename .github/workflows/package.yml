@@ -16,6 +16,12 @@ env:
   EXTENSION_NAME: pkg_ga-IE
   LANGUAGE_CODE: ga-IE
   LANGUAGE_NAME: Irish Gaelic
+  # Joomla Versions
+  VERSION5: 5.3.2
+  VERSION6: 6.0.0
+  # Language Pack Versions
+  LP_VERSION5: 5.3.1.4
+  LP_VERSION6: 6.0.0.0
 
 jobs:
   publish:
@@ -34,10 +40,12 @@ jobs:
           BRANCH_NAME="${GITHUB_REF_NAME}"
           echo "Branch is $BRANCH_NAME"
           if [ "$BRANCH_NAME" = "joomla5" ]; then
-            VERSION="5.3.2"
+            VERSION=${VERSION5}
+            LP_VERSION=${LP_VERSION5}
             PACKAGE_NAME="${EXTENSION_NAME}-joomla5"
           elif [ "$BRANCH_NAME" = "joomla6" ]; then
-            VERSION="6.0.0"
+            VERSION=${VERSION6}
+            LP_VERSION=${LP_VERSION6}
             PACKAGE_NAME="${EXTENSION_NAME}-joomla6"
           else
             echo "Unknown branch $BRANCH_NAME"
@@ -46,6 +54,7 @@ jobs:
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "PACKAGE_NAME=$PACKAGE_NAME" >> $GITHUB_ENV
+          echo "LP_VERSION=$LP_VERSION" >> $GITHUB_ENV
 
       # Force tag update
       - name: Force create/update tag
@@ -144,16 +153,14 @@ jobs:
         run: |
           ZIP_PATH="build/final/${PACKAGE_NAME}.zip"
 
-          VERSION="${{ steps.vars.outputs.version }}"
           SHA256=$(cut -d' ' -f1 build/final/${PACKAGE_NAME}.zip.sha256)
           SHA384=$(cut -d' ' -f1 build/final/${PACKAGE_NAME}.zip.sha384)
           SHA512=$(cut -d' ' -f1 build/final/${PACKAGE_NAME}.zip.sha512)
-          BRANCH="${{ steps.vars.outputs.branch }}"
 
           DOWNLOAD_URL=$ZIP_URL
 
           xmlstarlet ed \
-            -u "//update/version" -v "$VERSION" \
+            -u "//update/version" -v "$LP_VERSION" \
             -u "//update/downloads/downloadurl" -v "$DOWNLOAD_URL" \
             -u "//update/sha256" -v "$SHA256" \
             -u "//update/sha384" -v "$SHA384" \
@@ -212,10 +219,14 @@ jobs:
             </head>
             <body>
             <h1>${LANGUAGE_NAME} Language Package</h1>
-            <p>This site hosts update files for custom Joomla language extensions.
-            They are read by installations to obtain update information. They are not
-            meant for human use.</p>
+            <h2>Download for Installation</h2>
+            <ul>
+              <li><a href="https://github.com/ceford/cefjdemos-pkg-gd-gb/releases/download/${VERSION5}/pkg_gd-GB-joomla5.zip">Joomla 5 Installation ZIP</a></li>
+              <li><a href="https://github.com/ceford/cefjdemos-pkg-gd-gb/releases/download/${VERSION6}/pkg_gd-GB-joomla6.zip">Joomla 6 Installation ZIP</a></li>
+            </ul>
             <h2>Update Files</h2>
+            <p>These files are used by installations to obtain update information. They are not
+            meant for human use.</p>
             <ul>
               <li><a href="./joomla5/updates.xml">Joomla 5 updates.xml</a></li>
               <li><a href="./joomla6/updates.xml">Joomla 6 updates.xml</a></li>
