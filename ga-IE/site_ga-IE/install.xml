@@ -6,10 +6,10 @@
 	<creationDate>2025-08</creationDate>
 	<author>Clifford E Ford</author>
 	<authorEmail>cliff@fford.me.uk</authorEmail>
-	<authorUrl>github.com/ceford</authorUrl>
+	<authorUrl>github.com/ceford/</authorUrl>
 	<copyright>(C) 2025 Clifford E Ford</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>ga-IE site language</description>
+	<description>Irish Gaelic site language</description>
 	<files>
 		<folder>/</folder>
 		<filename file="meta">install.xml</filename>

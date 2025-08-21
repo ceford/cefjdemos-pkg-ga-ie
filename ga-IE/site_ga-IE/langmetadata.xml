@@ -5,10 +5,10 @@
 	<creationDate>2025-08</creationDate>
 	<author>Clifford E Ford</author>
 	<authorEmail>cliff@fford.me.uk</authorEmail>
-	<authorUrl>github.com/ceford</authorUrl>
+	<authorUrl>github.com/ceford/</authorUrl>
 	<copyright>(C) 2025 Clifford E Ford</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description><![CDATA[ga-IE site language]]></description>
+	<description>Irish Gaelic site language</description>
 	<metadata>
 		<name>Irish Gaelic</name>
 		<nativeName>Gaeilge na hAlban</nativeName>
